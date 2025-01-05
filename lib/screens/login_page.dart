@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'signup_page.dart';
 import 'upload_page.dart';
+import 'admin_page.dart'; // Import the new DriverPage
 import 'driver_page.dart'; // Import the new DriverPage
 import 'package:http/http.dart' as http;
 import '../widgets/cleanpak_header.dart';
@@ -35,7 +36,15 @@ class LoginPage extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (context) => const DriverPage()),
           );
-        } else {
+        } 
+                // Redirect based on user type
+        else if (responseData['user']['type']== 'admin') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const AdminPage()),
+          );
+        } 
+        else {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const UploadPage()),
