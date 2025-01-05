@@ -1,62 +1,63 @@
 import 'package:flutter/material.dart';
 import 'signup_page.dart';
 import 'upload_page.dart';
+import 'driver_page.dart'; // Import the new DriverPage
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 import '../widgets/cleanpak_header.dart';
 import 'dart:convert';
-
 
 class LoginPage extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   LoginPage({super.key});
-Future<void> loginUser(String username, String password, BuildContext context) async {
-  try {
-    // Replace with your actual login API endpoint
-    const String loginUrl = 'https://garbage-0ac9f8f057b7.herokuapp.com/auth/login';
 
-    // Make the HTTP POST request
-    final response = await http.post(
-      Uri.parse(loginUrl),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'username': username,
-        'password': password,
-      }),
-    );
+  Future<void> loginUser(String username, String password, BuildContext context) async {
+    try {
+      const String loginUrl = 'https://garbage-0ac9f8f057b7.herokuapp.com/auth/login';
 
-    // Check the response status code
-    if (response.statusCode == 200) {
-      // Parse the response (if needed)
-      final responseData = jsonDecode(response.body);
-      print('Login successful: $responseData');
-
-      // Navigate to the next page
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const UploadPage()),
+      final response = await http.post(
+        Uri.parse(loginUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'username': username,
+          'password': password,
+        }),
       );
-    } else {
-      // Show an error message
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        print('Login successful: $responseData');
+
+        // Redirect based on user type
+        if (responseData['user']['type']== 'driver') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const DriverPage()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const UploadPage()),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login failed: ${response.body}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Login failed: ${response.body}'),
+          content: Text('An error occurred: $e'),
           backgroundColor: Colors.red,
         ),
       );
     }
-  } catch (e) {
-    // Handle any errors during the request
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('An error occurred: $e'),
-        backgroundColor: Colors.red,
-      ),
-    );
   }
-}
 
   @override
   Widget build(BuildContext context) {
