@@ -1,0 +1,59 @@
+name: myapp
+description: "A new Flutter project."
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  file_picker: ^4.2.7
+  http: ^0.13.3
+
+  http_parser: ^4.0.0
+
+  cupertino_icons: ^1.0.8
+
+  google_maps_flutter: ^2.2.0
+  google_maps_webservice: ^0.0.20-nullsafety.5
+
+  # HTTP package for making network requests
+  #http: ^1.0.0
+  
+  # Provider package for state management
+  provider: ^6.0.0
+  
+  # Flutter local storage
+  shared_preferences: ^2.0.15
+  
+  # Flutter image picker for selecting images
+  image_picker: ^0.8.5+3
+  
+  # URL Launcher for opening links in the browser
+  url_launcher: ^6.0.17
+
+  geolocator: ^9.0.2
+
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  # To add assets to your application, uncomment and add your assets here if needed.
+  # assets:
+  #   - images/your_image.png
+
+  # To add custom fonts to your application, uncomment and configure fonts here if needed.
+  # fonts:
+  #   - family: YourFont
+  #     fonts:
+  #       - asset: fonts/YourFont-Regular.ttf
